@@ -1,0 +1,31 @@
+# dsh-usb-auto bundle patch: mount the USB auto-sync plugin.
+#
+# Every key below is a Config field. Defaults already work when the stick
+# folder is called dsh-usb-sync at the root of any drive letter.
+- insert:
+    - id: usb-auto
+      name: dsh-usb-auto
+      config:
+        enabled: true
+        # '' = look for <drive>:\dsh-usb-sync\repo.git on every drive.
+        stickPath: ''
+        stickFolder: dsh-usb-sync
+        # '' = $DSH_HOME (usually C:\Users\<you>\.dsh).
+        dshHome: ''
+        branch: main
+        gitBin: git
+        # Pull + regroup when the profile mounts.
+        autoPullOnStart: true
+        # Push when DSH quits (profile dispose / process exit).
+        autoPushOnExit: true
+        # Extra safety push every N minutes; 0 disables it.
+        autoPushIntervalMinutes: 10
+        # Re-attach downloaded sessions to local workspaces after a pull.
+        regroupOnPull: true
+        # keep-local = this laptop wins, the other copy is archived for review.
+        conflictPolicy: keep-local
+        registerCommand: true
+        commandName: usbsync
+        timeoutMs: 120000
+        maxConflictFiles: 200
+

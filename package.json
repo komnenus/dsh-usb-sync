@@ -1,0 +1,21 @@
+{
+  "name": "dsh-usb-auto",
+  "version": "0.1.0",
+  "description": "Automatic USB sync for DeepSeek Harness: finds the stick, pulls on start, pushes on exit, keep-both conflict folders and a /usbsync command.",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": ["index.mjs", "lib", "cordis.patch.yml", "README.md"],
+  "dsh": { "manifestVersion": 1, "bundle": { "patch": "./cordis.patch.yml" } },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.5-alpha.1",
+    "@deepseek-ai/schemastery": "^3.18.5-alpha.1"
+  },
+  "engines": { "node": "^22.19.0 || >=24.0.0" },
+  "license": "MIT"
+}
+
