@@ -14,7 +14,7 @@ const write = (file, text) => {
 }
 
 function workspace() {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'usb-auto-'))
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'usb-sync-'))
   const home = path.join(root, 'dsh')
   const stick = path.join(root, 'E', 'dsh-usb-sync')
   const bare = path.join(stick, 'repo.git')

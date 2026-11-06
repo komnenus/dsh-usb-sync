@@ -3,14 +3,14 @@
   Push this folder to a GitHub repository.
 
     push-to-github.ps1 -User <GitHub user name>
-    push-to-github.ps1 -User <user> -Repo dsh-usb-auto -Branch main
+    push-to-github.ps1 -User <user> -Repo dsh-usb-sync -Branch main
 
   The repository must already exist on GitHub (create it empty: no README,
   no .gitignore, no license). The first push opens the browser sign-in.
 #>
 param(
     [Parameter(Mandatory = $true)][string]$User,
-    [string]$Repo = 'dsh-usb-auto',
+    [string]$Repo = 'dsh-usb-sync',
     [string]$Branch = 'main',
     [string]$Remote = 'origin'
 )

@@ -1,4 +1,4 @@
-# dsh-usb-auto
+# dsh-usb-sync
 
 DSH 的 U 盘自动同步插件：启动时拉取、退出时推送，插着 U 盘就工作。
 逻辑与手动脚本一致：工作区登记表只留本机，会话与项目文件走同一个 U 盘仓库，
@@ -14,19 +14,19 @@ DSH 的 U 盘自动同步插件：启动时拉取、退出时推送，插着 U �
 - **定时兜底**：默认每 10 分钟再推一次，防止异常退出丢内容。
 - **工作区登记表不出本机**：`workspace.json` 只在本机，拉取前后自动备份还原。
 - **冲突不丢版本**：同一文件两边都改过时，本机版本留在文件夹里，另一台的版本存进
-  `~/.dsh/.chatsync-local/usb-auto/conflicts/<时间>/`，附清单，随时可换回。
+  `~/.dsh/.chatsync-local/usb-sync/conflicts/<时间>/`，附清单，随时可换回。
 
 ## 安装
 
 1. 完全退出 DSH。
-2. 把整个 `dsh-usb-auto` 文件夹放到任意固定位置（例如 `D:\desktop\codex work\dsh-usb-auto`）。
+2. 把整个插件文件夹放到任意固定位置（例如 `D:\desktop\codex work\` 下面）。
 3. 用 PowerShell 运行文件夹里的安装脚本：
 
    ```
-   powershell -NoProfile -ExecutionPolicy Bypass -File "D:\desktop\codex work\dsh-usb-auto\install.ps1"
+   powershell -NoProfile -ExecutionPolicy Bypass -File "<插件目录>\install.ps1"
    ```
 
-   它会：把插件复制进 `%USERPROFILE%\.dsh\profiles\desktop\node_modules\dsh-usb-auto`；
+   它会：把插件复制进 `%USERPROFILE%\.dsh\profiles\desktop\node_modules\dsh-usb-sync`；
    备份并在 `cordis.patch.yml` 末尾追加一段配置。不会改动现有条目。
 4. 重新打开 DSH。菜单里输入 `/usbsync` 能看到状态就说明装好了。
 
@@ -34,7 +34,7 @@ DSH 的 U 盘自动同步插件：启动时拉取、退出时推送，插着 U �
 
 ## 配置
 
-配置写在 `%USERPROFILE%\.dsh\profiles\desktop\cordis.patch.yml` 的 `usb-auto` 条目里，
+配置写在 `%USERPROFILE%\.dsh\profiles\desktop\cordis.patch.yml` 的 `usb-sync` 条目里，
 改完重启 DSH 生效。
 
 | 键 | 默认 | 说明 |
@@ -71,7 +71,7 @@ DSH 的 U 盘自动同步插件：启动时拉取、退出时推送，插着 U �
 两边改到同一个文件时，插件不会停下来问你：
 
 1. 本机版本留在工作目录里，照常提交；
-2. 另一台的版本存到 `.chatsync-local/usb-auto/conflicts/<时间>/theirs/`；
+2. 另一台的版本存到 `.chatsync-local/usb-sync/conflicts/<时间>/theirs/`；
 3. 本机版本同时存一份到同目录的 `ours/`；
 4. 生成 `manifest.json` 和 `summary.txt`，写明每个文件保留的是哪一边。
 
@@ -87,7 +87,7 @@ DSH 的 U 盘自动同步插件：启动时拉取、退出时推送，插着 U �
 ## 自测
 
 ```
-cd dsh-usb-auto
+cd <插件目录>
 node --test test/engine.test.mjs
 ```
 

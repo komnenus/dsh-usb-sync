@@ -1,6 +1,6 @@
 #Requires -Version 5.1
 <#
-  Install (or remove) the dsh-usb-auto plugin in the DSH desktop profile.
+  Install (or remove) the dsh-usb-sync plugin in the DSH desktop profile.
 
   It copies this folder into the profile's node_modules and appends one marked
   block to cordis.patch.yml. Existing entries are never edited; the patch file
@@ -17,10 +17,10 @@ $ErrorActionPreference = 'Stop'
 $source = $PSScriptRoot
 $profileDir = if ($Profile) { $Profile } else { Join-Path $env:USERPROFILE '.dsh\profiles\desktop' }
 if (-not (Test-Path -LiteralPath $profileDir)) { throw "profile folder not found: $profileDir" }
-$target = Join-Path $profileDir 'node_modules\dsh-usb-auto'
+$target = Join-Path $profileDir 'node_modules\dsh-usb-sync'
 $patch = Join-Path $profileDir 'cordis.patch.yml'
-$startMarker = '# >>> dsh-usb-auto >>>'
-$endMarker = '# <<< dsh-usb-auto <<<'
+$startMarker = '# >>> dsh-usb-sync >>>'
+$endMarker = '# <<< dsh-usb-sync <<<'
 
 function Read-Text([string]$file) {
     if (-not (Test-Path -LiteralPath $file)) { return '' }
@@ -39,7 +39,7 @@ if ($Uninstall) {
         $pattern = '(?s)' + [regex]::Escape($startMarker) + '.*?' + [regex]::Escape($endMarker) + '\r?\n?'
         $text = [regex]::Replace($text, $pattern, '')
         Write-Text $patch $text
-        Write-Host 'usb-auto entry removed from cordis.patch.yml'
+        Write-Host 'usb-sync entry removed from cordis.patch.yml'
     }
     Write-Host 'Uninstall finished. Restart DSH.'
     exit 0
@@ -56,7 +56,7 @@ Write-Host "plugin copied to $target"
 # --- append the patch entry --------------------------------------------------
 $text = Read-Text $patch
 if ($text.Contains($startMarker)) {
-    Write-Host 'cordis.patch.yml already has the usb-auto entry - left as is'
+    Write-Host 'cordis.patch.yml already has the usb-sync entry - left as is'
     Write-Host 'Install finished. Restart DSH.'
     exit 0
 }
@@ -65,14 +65,14 @@ if (Test-Path -LiteralPath $patch) { Copy-Item -LiteralPath $patch -Destination 
 $block = @(
     '',
     $startMarker,
-    '- id: usb-auto',
-    '  name: dsh-usb-auto',
+    '- id: usb-sync',
+    '  name: dsh-usb-sync',
     '  config:',
     '    enabled: true',
     $endMarker
 ) -join "`r`n"
 if ($text -and -not $text.EndsWith("`n")) { $text += "`r`n" }
 Write-Text $patch ($text + $block + "`r`n")
-Write-Host 'usb-auto entry appended to cordis.patch.yml'
+Write-Host 'usb-sync entry appended to cordis.patch.yml'
 Write-Host 'Install finished. Restart DSH, then type /usbsync to check.'
 
